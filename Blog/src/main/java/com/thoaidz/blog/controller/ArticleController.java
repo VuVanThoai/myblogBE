@@ -79,7 +79,6 @@ public class ArticleController {
 		if (newArticle != null) {
 			return new ResponseEntity<Article>(newArticle, HttpStatus.OK);
 		} else {
-			System.err.println("---error---------");
 			return new ResponseEntity<Article>(HttpStatus.BAD_GATEWAY);
 		}
 	}
@@ -94,5 +93,4 @@ public class ArticleController {
 			return new ResponseEntity<Article>(HttpStatus.BAD_GATEWAY);
 		}
 	}
-
 }
