@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.thoaidz.blog.model.Article;
@@ -92,5 +93,10 @@ public class ArticleController {
 			System.err.println("---error---------");
 			return new ResponseEntity<Article>(HttpStatus.BAD_GATEWAY);
 		}
+	}
+	
+	@GetMapping("articles/search")
+	ResponseEntity<List<Article>> getListArticleSearch(@RequestParam String keySearch) {
+		return null;
 	}
 }
