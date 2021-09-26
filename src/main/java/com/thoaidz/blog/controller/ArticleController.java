@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,46 +35,59 @@ public class ArticleController {
 	@GetMapping("articles")
 	ResponseEntity<List<Article>> getListArticle() {
 		List<Article> listArticle = articleService.getListArticle();
-		System.out.println(listArticle.toString());
 		return new ResponseEntity<List<Article>>(listArticle, HttpStatus.OK);
 	}
 
 	@GetMapping("articles/{idCategory}")
-	ResponseEntity<List<Article>> getListArticleByCategory(@PathVariable int idCategory) {
-		List<Article> listArticleByCategory = articleService.getListArticleByCategory(idCategory);
-		System.out.println(listArticleByCategory.toString());
+	ResponseEntity<List<Article>> getListArticleByCategoryOffset(@PathVariable int idCategory, @RequestParam int offset) {
+		List<Article> listArticleByCategory = articleService.getListArticleByCategory(idCategory, offset);
 		return new ResponseEntity<List<Article>>(listArticleByCategory, HttpStatus.OK);
 	}
 
 	@GetMapping("article/{idArticle}")
 	ResponseEntity<Article> getArticleById(@PathVariable int idArticle) {
 		Optional<Article> articleById = articleService.getArticleById(idArticle);
-		System.out.println(articleById.toString());
 		if (articleById.isPresent()) {
 			return new ResponseEntity<Article>(articleById.get(), HttpStatus.OK);
 		} else {
 			return new ResponseEntity<Article>(HttpStatus.NOT_FOUND);
 		}
 	}
-	
-	@GetMapping("article/url/{url}")
+
+	@GetMapping("article/query-url/{url}")
 	ResponseEntity<Article> getArticleByUrl(@PathVariable String url) {
 		Optional<Article> articleByUrl = articleService.getArticleByUrl(url);
-		System.out.println(articleByUrl.toString());
 		if (articleByUrl.isPresent()) {
 			return new ResponseEntity<Article>(articleByUrl.get(), HttpStatus.OK);
 		} else {
 			return new ResponseEntity<Article>(HttpStatus.NOT_FOUND);
 		}
 	}
-	
-	@GetMapping("articles/os/{offset}")
-	ResponseEntity<List<Article>> getListArticleOffset(@PathVariable int offset) {
-		List<Article> listArticleByOffset = articleService.getListArticlesOffset(offset);
+
+	@GetMapping("articles/height-view")
+	ResponseEntity<List<Article>> getListArticleHeightView() {
+		List<Article> listArticleByOffset = articleService.getListArticleHeightView();
 		return new ResponseEntity<List<Article>>(listArticleByOffset, HttpStatus.OK);
 	}
 
-	
+	@GetMapping("articles/height-view/main")
+	ResponseEntity<List<Article>> getListArticleHeightViewForMain() {
+		List<Article> listArticleByOffset = articleService.getListArticleHeightViewForMain();
+		return new ResponseEntity<List<Article>>(listArticleByOffset, HttpStatus.OK);
+	}
+
+	@GetMapping("articles/search")
+	ResponseEntity<List<Article>> search(@RequestParam String key, @RequestParam int offset) {
+		List<Article> listArticleByOffset = articleService.search(key, offset);
+		return new ResponseEntity<List<Article>>(listArticleByOffset, HttpStatus.OK);
+	}
+
+	@GetMapping("articles/os/{offset}")
+	ResponseEntity<List<Article>> getListNewArticlesLoadMoreOffset(@PathVariable int offset) {
+		List<Article> listArticleByOffset = articleService.getListNewArticlesLoadMoreOffset(offset);
+		return new ResponseEntity<List<Article>>(listArticleByOffset, HttpStatus.OK);
+	}
+
 	@PostMapping("article")
 	ResponseEntity<Article> saveArticle(@Valid @RequestBody Article article) {
 		Article newArticle = articleService.saveNewArticle(article);
@@ -83,7 +97,7 @@ public class ArticleController {
 			return new ResponseEntity<Article>(HttpStatus.BAD_GATEWAY);
 		}
 	}
-	
+
 	@PutMapping("article")
 	ResponseEntity<Article> updateArticle(@Valid @RequestBody Article article) {
 		Article newArticle = articleService.saveNewArticle(article);
@@ -95,8 +109,10 @@ public class ArticleController {
 		}
 	}
 	
-	@GetMapping("articles/search")
-	ResponseEntity<List<Article>> getListArticleSearch(@RequestParam String keySearch) {
-		return null;
+	@DeleteMapping("article/{id}")
+	ResponseEntity<Boolean> deleteArticle(@PathVariable int id) {
+		articleService.deleteArticle(id);
+		return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 	}
+
 }

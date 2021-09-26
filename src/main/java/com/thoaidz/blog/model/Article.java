@@ -24,6 +24,9 @@ public class Article implements Serializable {
 	@Column(name = "id_category")
 	private int idCategory;
 	
+	@Column(name = "name_category")
+	private String nameCategory;
+	
 	@Column(name = "url")
 	private String url;
 	
@@ -44,6 +47,9 @@ public class Article implements Serializable {
 	
 	@Column(name = "view")
 	private int view;
+	
+	@Column(name = "comment")
+	private int comment;
 
 	public int getId() {
 		return id;
@@ -116,6 +122,21 @@ public class Article implements Serializable {
 	public void setView(int view) {
 		this.view = view;
 	}
-	
+
+	public int getComment() {
+		return comment;
+	}
+
+	public void setComment(int comment) {
+		this.comment = comment;
+	}
+
+	public String getNameCategory() {
+		return nameCategory;
+	}
+
+	public void setNameCategory(String nameCategory) {
+		this.nameCategory = nameCategory;
+	}
 
 }

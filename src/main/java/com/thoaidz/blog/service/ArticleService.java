@@ -23,8 +23,8 @@ public class ArticleService {
 		return articleRepository.findAll();
 	}
 	
-	public List<Article> getListArticleByCategory(int idCategory) {
-		return articleRepository.findByIdCategory(idCategory);
+	public List<Article> getListArticleByCategory(int idCategory, int offset) {
+		return articleRepository.getListArticlesByIdCategoryOffset(idCategory, offset);
 	}
 	
 	public Optional<Article> getArticleById(int idArticle) {
@@ -34,13 +34,29 @@ public class ArticleService {
 	public Article saveNewArticle(Article article) {
 		return articleRepository.save(article);
 	}
-	
-	public List<Article> getListArticlesOffset(int offset) {
-		return articleRepository.getListArticlesOffset(offset);
-	}
-	
+
 	public Optional<Article> getArticleByUrl(String url) {
 		return articleRepository.getArticleByUrl(url);
+	}
+	
+	public List<Article> getListArticleHeightView() {
+		return articleRepository.getListArticleHeightView(10);
+	}
+	
+	public List<Article> getListArticleHeightViewForMain() {
+		return articleRepository.getListArticleHeightView(6);
+	}
+	
+	public List<Article> getListNewArticlesLoadMoreOffset(int offset) {
+		return articleRepository.getListNewArticlesLoadMoreOffset(offset);
+	}
+	
+	public List<Article> search(String key, int offset) {
+		return articleRepository.search(key, offset);
+	}
+	
+	public void deleteArticle(int id) {
+		articleRepository.deleteById(id);
 	}
 
 }
