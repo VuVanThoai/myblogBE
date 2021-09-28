@@ -25,7 +25,7 @@ public interface ArticleRepository extends JpaRepository<Article, Integer> {
 	@Query(value = "SELECT * FROM Article ORDER BY create_date DESC LIMIT 24 OFFSET :offset", nativeQuery = true)
 	List<Article> getListNewArticlesLoadMoreOffset(@Param("offset") int offset);
 	
-	@Query(value = "SELECT * FROM Article WHERE title LIKE '%:key%' body LIKE '%:key%' tag LIKE '%:key%' OR ORDER BY create_date DESC LIMIT 18 OFFSET :offset", nativeQuery = true)
+	@Query(value = "SELECT * FROM Article WHERE title LIKE %:key% OR body LIKE %:key% OR tag LIKE %:key% ORDER BY create_date DESC LIMIT 18 OFFSET :offset", nativeQuery = true)
 	List<Article> search(@Param("key") String key, @Param("offset") int offset);
 	
 }

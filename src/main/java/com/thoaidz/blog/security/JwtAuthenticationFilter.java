@@ -31,9 +31,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 		try {
+			if (request.getRequestURI().startsWith("/api/v1")) {
+				filterChain.doFilter(request, response);
+				return;
+			}
 			// Lấy jwt từ request
 			String jwt = getJwtFromRequest(request);
-
 			if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
 				// Lấy id user từ chuỗi jwt
 				int userId = tokenProvider.getUserIdFromJWT(jwt);
